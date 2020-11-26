@@ -1,35 +1,35 @@
 % *********************************************
-% Unsupervised Learning - K-Means algorithm
+% Unsupervised Learning 
+% K-Means algorithm
 % Deep.I Inc.
+% https://deep-eye.tistory.com/24
 % deepi.contact.us@gmail.com
 % *********************************************
 
-% load sample_data_set_1.mat
+load sample_data_set_1.mat
 
-% 클러스터 개수
+% Number of Clusters
 k = 2;                       
-% 클러스터 위치 초기화 인덱스 선정
+% Centroid Initialization
 rand = randperm(length(X),k);
-% 초기 Centroid 값
 u = X(rand ,:);
-% 학습 횟수
+% Number of iterations
 z = 10;
 
-% 학습 시작
 for z=1:10
-    % 최대값 저장메모리 할당
+    % Create Cluster Set
     C = cell(k,1);
     for j=1:length(X)
-        % 거리 구하기
+        % Distance
         for i =1:k
             dist(i,1) = norm(X(j,:)-u(i,:));
         end
-        % 중심점과 가장 유사도가 높은 데이터를 중심점 클러스터로 할당
+        % Assign each observation to the cluster with the nearest mean
         arg = find(dist==min(dist));
         C{arg}(end+1,:) = X(j,:);
     end
     
-   % 업데이트
+   % Update
     for i = 1:k
         cluster = C{i};
         cluster = sum(cluster) ./ sum(cluster~=0,1);
@@ -38,7 +38,7 @@ for z=1:10
         end
     end
     
-    % 군집 확인
+    % plot
     cla; hold on;
     for i = 1: k
         cluster = C{i};
@@ -49,4 +49,5 @@ for z=1:10
     end
     pause(0.5)  
 end
+
 
